@@ -1,0 +1,18 @@
+body {
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+}
+
+#game-arena {
+    width: 700px;
+    height: 700px;
+    background-color: #333;
+    position: relative;
+    border: 5px solid #666;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
