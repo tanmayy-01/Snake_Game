@@ -9,6 +9,7 @@ body {
     overflow-y: hidden;
 }
 
+
 #game-arena {
     width: 700px;
     height: 700px;
@@ -37,6 +38,7 @@ body {
     border-radius: 30px;
     border: 5px;
     border-color: #333;
+    animation: blink 1s infinite;
 }
 
 .food {

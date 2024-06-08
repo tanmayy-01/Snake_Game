@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let snake = [{x:160, y:200}, {x:140,y:200}, {x:120,y:200}];
     let dx = cellSize;  // displacement on x-axis
     let dy = 0;     // displacement on y-axis
+    let gameSpeed = 200;
+    let intervalID;
 
     function drawScoreBoard() {
         const scoreBoard = document.getElementById('score-board');
@@ -55,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(newHead.x === food.x && newHead.y === food.y){
             // collision
             score += 5;
+            if(gameSpeed > 30) {
+                clearInterval(intervalID);
+                gameSpeed -= 10;
+                gameLoop();
+            }
             moveFood();
             // don't pop the tail
         } else {
@@ -80,7 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function gameLoop() {
-        setInterval(() => {
+    
+       intervalID =  setInterval(() => {
             if(!gameStarted) return;
             // check for game over
             if(isGameOver()) {
@@ -92,12 +100,36 @@ document.addEventListener('DOMContentLoaded', () => {
             updateSnake()
             drawScoreBoard();
             drawFoodAndSnake();
-        },1000)
+        }, gameSpeed)
+    }
+
+    function changeDirection(e) {
+        
+        const LEFT_KEY = 37;
+        const RIGHT_KEY = 39;
+        const UP_KEY = 38;
+        const DOWN_KEY = 40;
+
+        const keyPressed = e.keyCode;
+
+        const isGoingUp = dy == -cellSize;
+        const isGoingDown = dy == cellSize;
+        const isGoingLeft = dx == -cellSize;
+        const isGoingRight = dx == cellSize;
+
+        if(keyPressed == LEFT_KEY && !isGoingRight) {dy = 0; dx = -cellSize}
+        if(keyPressed == RIGHT_KEY && !isGoingLeft) {dy = 0; dx = cellSize}
+        if(keyPressed == UP_KEY && !isGoingDown) {dy = -cellSize; dx = 0}
+        if(keyPressed == DOWN_KEY && !isGoingUp) {dy = cellSize; dx = 0}
     }
 
     function runGame() {
-        gameStarted = true;
-        gameLoop()
+        if(!gameStarted) {
+            gameStarted = true;
+            gameLoop()
+            document.addEventListener('keydown', changeDirection);
+
+        }
     }
 
 
